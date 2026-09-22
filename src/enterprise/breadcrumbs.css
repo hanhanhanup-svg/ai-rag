@@ -1,0 +1,15 @@
+/* One complete, persistent functional path for every module. */
+.enterprise .e-topbar{position:sticky;top:0;z-index:30;min-height:66px;height:auto;padding-top:14px;padding-bottom:14px;align-items:flex-start}
+.enterprise .e-breadcrumb{flex:1;min-width:0;align-items:flex-start;gap:10px}
+.enterprise .e-topbar-right{flex-shrink:0;min-height:28px;align-items:center}
+.e-functional-path{min-width:0;flex:1;font-size:12px;color:#7086a0;padding:4px 0}
+.e-functional-path ol{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 0;list-style:none;margin:0;padding:0}
+.e-functional-path li{display:inline-flex;align-items:baseline;gap:8px;max-width:100%;min-width:0;line-height:1.7}
+.e-functional-path li+li{margin-left:8px}
+.e-functional-path li>svg{flex-shrink:0;align-self:center;color:#a3b2c5}
+.e-functional-path li>a,.e-functional-path li>span{overflow-wrap:anywhere;white-space:normal}
+.e-functional-path a:hover{color:#2262d5;text-decoration:underline;text-underline-offset:3px}
+.e-functional-path [aria-current=page]{color:#344e6b;font-weight:600}
+.e-functional-path a:focus-visible{outline:2px solid #88afe8;outline-offset:3px;border-radius:2px}
+@media(max-width:1100px){.enterprise .e-topbar:has(.e-functional-path) .e-access-label{display:none}}
+@media(max-width:760px){.enterprise .e-topbar{min-height:56px;padding-top:11px;padding-bottom:11px;gap:8px}.enterprise .e-topbar:has(.e-functional-path) .e-topbar-right{display:none}.enterprise .e-breadcrumb{gap:7px}.e-functional-path{font-size:11px;padding:3px 0}.e-functional-path li{gap:5px}.e-functional-path li+li{margin-left:5px}.e-functional-path ol{gap:4px 0}.enterprise .e-mobile-menu{flex-shrink:0}}

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>企业多模态知识库平台介绍</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#e8f1f8',
+        primaryTextColor: '#1a2b3c',
+        primaryBorderColor: '#2f6f9f',
+        lineColor: '#5a7a94',
+        secondaryColor: '#f3f6f9',
+        tertiaryColor: '#fff8ef',
+        fontFamily: 'Source Han Sans SC, Noto Sans SC, Microsoft YaHei, sans-serif',
+      },
+      flowchart: { curve: 'basis', htmlLabels: true },
+    });
+  </script>
+  <style>
+    :root {
+      --ink: #1a2b3c;
+      --muted: #5a6d7e;
+      --line: #d5dee7;
+      --paper: #f7f9fb;
+      --card: #ffffff;
+      --brand: #1e5a86;
+      --brand-soft: #e8f1f8;
+      --accent: #c47a2c;
+      --accent-soft: #fff4e8;
+      --ok: #2a6b4f;
+      --ok-soft: #e8f5ef;
+      --shadow: 0 10px 30px rgba(26, 43, 60, 0.06);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8f1f8 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #fff4e8 0%, transparent 50%),
+        var(--paper);
+      font: 16px/1.7 "Source Han Sans SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+    .cover {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(30,90,134,.92), rgba(30,90,134,.78)),
+        linear-gradient(160deg, #1e5a86, #2f7aa8 55%, #c47a2c);
+      color: #fff;
+      padding: 48px 44px 40px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+    .cover::after {
+      content: "";
+      position: absolute;
+      right: -40px; top: -40px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+    }
+    .cover .eyebrow {
+      display: inline-block;
+      letter-spacing: .18em;
+      font-size: 12px;
+      opacity: .85;
+      border: 1px solid rgba(255,255,255,.35);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .cover h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.25;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+    .cover .lead {
+      max-width: 720px;
+      margin: 0;
+      font-size: 17px;
+      opacity: .95;
+      position: relative;
+      z-index: 1;
+    }
+    .cover-meta {
+      display: flex; flex-wrap: wrap; gap: 10px 18px;
+      margin-top: 28px;
+      font-size: 13px;
+      opacity: .9;
+      position: relative;
+      z-index: 1;
+    }
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .toc a {
+      text-decoration: none;
+      color: var(--brand);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      box-shadow: var(--shadow);
+    }
+    .toc a:hover { background: var(--brand-soft); }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px 28px 24px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
+    }
+    section h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: var(--brand);
+      border-bottom: 2px solid var(--brand-soft);
+      padding-bottom: 10px;
+    }
+    section h3 {
+      margin: 22px 0 10px;
+      font-size: 17px;
+      color: var(--ink);
+    }
+    p, li { color: var(--ink); }
+    .muted { color: var(--muted); }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 8px; }
+    .pill {
+      background: var(--brand-soft);
+      color: var(--brand);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .pill.accent { background: var(--accent-soft); color: var(--accent); }
+    .pill.ok { background: var(--ok-soft); color: var(--ok); }
+    .grid-3, .grid-2 {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 860px) {
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .cover { padding: 32px 22px; }
+      section { padding: 22px 18px; }
+    }
+    .value-card, .mod-card, .layer-card, .kpi {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      background: linear-gradient(180deg, #fff, #fafcfe);
+    }
+    .value-card h4, .mod-card h4, .layer-card h4, .kpi strong {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: var(--brand);
+    }
+    .value-card p, .mod-card p, .layer-card p, .kpi span {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .kpi {
+      text-align: center;
+      padding: 18px 12px;
+    }
+    .kpi strong {
+      display: block;
+      font-size: 28px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .diagram {
+      margin: 18px 0 8px;
+      padding: 16px 12px;
+      border-radius: 16px;
+      background: #f4f8fb;
+      border: 1px dashed #b9c9d8;
+      overflow-x: auto;
+    }
+    .diagram .caption {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--brand-soft); color: var(--brand); }
+    .callout {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--brand);
+      background: var(--brand-soft);
+      border-radius: 0 12px 12px 0;
+      font-size: 14px;
+    }
+    .callout.warn {
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .foot {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 28px;
+    }
+    @media print {
+      body { background: #fff; }
+      .wrap { max-width: none; padding: 0; }
+      section, .cover { box-shadow: none; break-inside: avoid; }
+      .toc { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="cover">
+      <div class="eyebrow">ENTERPRISE MULTIMODAL KNOWLEDGE · X-RAG</div>
+      <h1>企业多模态知识库<br/>平台介绍</h1>
+      <p class="lead">
+        把分散在制度、表格、图纸说明、音视频中的企业资料，建成「找得到、管得住、用得开、有出处」的知识服务平台，
+        支撑业务查找、带依据问答与系统集成，辅助决策而不替代正式制度效力。
+      </p>
+      <div class="cover-meta">
+        <span>文档定位：面向决策层 / 业务负责人的总体介绍</span>
+        <span>产品形态：单节点可部署企业知识平台</span>
+        <span>更新日期：2026-09</span>
+      </div>
+    </header>
+
+    <nav class="toc" aria-label="目录">
+      <a href="#s1">1. 总体定位与价值</a>
+      <a href="#s2">2. 总体能力全景</a>
+      <a href="#s3">3. 功能架构</a>
+      <a href="#s4">4. 技术架构</a>
+      <a href="#s5">5. 核心业务闭环</a>
+      <a href="#s6">6. 安全治理与边界</a>
+      <a href="#s7">7. 建设成效与建议</a>
+    </nav>
+
+    <!-- 1 -->
+    <section id="s1">
+      <h2>1. 总体定位与价值</h2>
+      <p>
+        企业知识往往散落在 PDF、Word、Excel、扫描件与音视频中。业务人员「问得到人、找不到依据」；
+        知识管理人员「有文档、难治理」；系统建设「有模型、缺证据」。本平台以<strong>多模态接入 + 证据核验 + 权限可控 + 场景化应用</strong>
+        为主线，形成可持续运营的企业知识底座。
+      </p>
+      <div class="pill-row">
+        <span class="pill">找得着 · 场景与原文双路径</span>
+        <span class="pill accent">管得住 · 发布审核与版本</span>
+        <span class="pill ok">用得开 · 问答 / 图谱 / 标准接口</span>
+      </div>
+      <div class="grid-3">
+        <div class="value-card">
+          <h4>对业务人员</h4>
+          <p>按任务、对象、问题快速定位有效资料；问答结果带回原文引用，减少「凭印象答复」。</p>
+        </div>
+        <div class="value-card">
+          <h4>对知识管理员</h4>
+          <p>统一接入、解析、属性标注、重复冲突核验、知识卡片与需求池，形成可运营的知识生产流水线。</p>
+        </div>
+        <div class="value-card">
+          <h4>对平台与 IT</h4>
+          <p>服务端鉴权、审计留痕、模型与解析服务可配置；标准知识接口可被业务系统安全调用。</p>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>一句话口径：</strong>
+        将企业多模态资料纳入「授权可控、原文可溯、发布可审、接口可集成」的知识闭环，支撑业务场景查找与带依据智能问答，并以需求池、卡片、评测与审计持续治理质量。
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="s2">
+      <h2>2. 总体能力全景</h2>
+      <p class="muted">从「资料进入」到「业务使用」，再到「质量回流」的端到端视图，便于领导把握平台全貌。</p>
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart LR
+  subgraph IN["资料接入"]
+    A1["文件上传\n多模态解析"]
+    A2["资料源同步"]
+    A3["属性标注"]
+  end
+  subgraph ASSET["知识资产"]
+    B1["知识库 / 文档"]
+    B2["业务对象 / 图谱"]
+    B3["知识卡片"]
+    B4["需求池"]
+  end
+  subgraph USE["知识应用"]
+    C1["综合查找"]
+    C2["智能问答"]
+    C3["业务场景"]
+    C4["标准接口"]
+  end
+  subgraph GOV["质量运营"]
+    D1["重复冲突核验"]
+    D2["完整性补全"]
+    D3["评测与追踪"]
+    D4["审计备份"]
+  end
+  IN --> ASSET --> USE
+  USE --> GOV
+  GOV -->|"缺口回流"| B4
+  B4 -->|"补齐回归"| USE
+  A3 --> B1
+  B3 --> C2
+        </pre>
+        <div class="caption">图 1　企业多模态知识库总体能力全景</div>
+      </div>
+      <div class="grid-3" style="margin-top:18px">
+        <div class="kpi"><strong>7</strong><span>大导航能力中心</span></div>
+        <div class="kpi"><strong>100MB</strong><span>单文件接入上限</span></div>
+        <div class="kpi"><strong>全程引用</strong><span>答复可回原文证据</span></div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="s3">
+      <h2>3. 功能架构</h2>
+      <p>
+        平台按「工作台 → 应用 → 资产 → 加工 → 治理 → 运营 → 管理」七大中心组织能力，菜单按角色（管理员 / 知识管理员 / 使用者）裁剪，
+        保证一线人员界面简洁、管理人员能力完整。
+      </p>
+
+      <h3>3.1 七大功能中心</h3>
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart TB
+  W["工作台\n待办 / 规模 / 快捷入口"]
+  APP["知识应用\n综合查找 · 搜索 · 问答 · 场景"]
+  AST["知识资产\n库 · 文档 · 对象 · 卡片 · 需求池 · 图谱"]
+  PRO["接入加工\n上传 · 同步 · 解析索引 · 属性标注"]
+  GOV["质量治理\n重复冲突 · 反馈"]
+  OPS["运营分析\n评测 · 运行追踪 · 完整性补全"]
+  PLAT["平台管理\n模型服务 · 标准接口 · 审计 · 备份"]
+  W --- APP
+  W --- AST
+  PRO --> AST
+  AST --> APP
+  APP --> GOV
+  APP --> OPS
+  PLAT -.-> PRO
+  PLAT -.-> OPS
+        </pre>
+        <div class="caption">图 2　功能架构：七大中心协同关系</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th style="width:18%">中心</th><th style="width:28%">面向角色</th><th>核心能力</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>工作台</td><td>全员</td><td>知识规模、待办汇聚，一键进入查找 / 问答 / 图谱</td></tr>
+          <tr><td>知识应用</td><td>业务人员、管理员</td><td>综合查找、知识搜索、智能问答、业务场景、收藏与反馈</td></tr>
+          <tr><td>知识资产</td><td>全员（按权限）</td><td>知识库矩阵、文档、业务对象、知识卡片、需求池、知识图谱</td></tr>
+          <tr><td>接入加工</td><td>知识管理员</td><td>多模态文件接入、资料源同步、解析索引、属性标注</td></tr>
+          <tr><td>质量治理</td><td>知识管理员</td><td>近似重复 / 条款冲突核验、反馈记录与沉淀</td></tr>
+          <tr><td>运营分析</td><td>管理员</td><td>质量评测、运行追踪、答复完整性补全</td></tr>
+          <tr><td>平台管理</td><td>管理员</td><td>模型与服务目录、标准知识接口、审计、备份、组织人员</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.2 知识生产与应用功能分层</h3>
+      <div class="grid-2">
+        <div class="mod-card">
+          <h4>生产侧（让知识「进得来、标得准」）</h4>
+          <p>
+            · 多模态解析：文本 / 表格 / OCR / 音视频抽帧<br/>
+            · 属性标注：模板识别草稿 + 人工确认生效<br/>
+            · 知识卡片：结构化口径，发布须关联原文依据<br/>
+            · 图谱对象：关系候选确认，避免未核验路径进入问答
+          </p>
+        </div>
+        <div class="mod-card">
+          <h4>应用侧（让知识「找得到、答得住」）</h4>
+          <p>
+            · 综合查找：意图分流至场景 / 文档 / 图谱<br/>
+            · 智能问答：模型归纳与原文摘录区分，强制引用<br/>
+            · 业务场景：评测通过后发布，工具白名单可控<br/>
+            · 标准接口：业务系统按绑定范围安全调用
+          </p>
+        </div>
+      </div>
+
+      <h3>3.3 近期增强能力（知识闭环升级）</h3>
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart LR
+  ATTR["属性标注\n结构化条件"] --> SEARCH["检索与问答"]
+  CARD["知识卡片\n可追溯口径"] --> SEARCH
+  COMP["完整性补全\n缺口识别"] --> DEMAND["知识需求池"]
+  DEMAND --> FIX["补知识 / 改卡片"]
+  FIX --> RETEST["回归复测"]
+  RETEST --> SEARCH
+        </pre>
+        <div class="caption">图 3　属性 · 卡片 · 完整性 · 需求池 闭环</div>
+      </div>
+      <ul>
+        <li><strong>属性标注</strong>：在解析任务页完成文档 / 片段级属性建议与确认，服务检索过滤与问答条件。</li>
+        <li><strong>知识卡片</strong>：概念解释、规则说明、操作指引、常见问答四类模板；草稿不作为标准口径，冲突并排保留。</li>
+        <li><strong>完整性补全</strong>：对问答运行解析应答要点清单；智能补全仅给结构 / 澄清建议，知识补全必须带证据。</li>
+        <li><strong>知识需求池</strong>：缺口自动归集为「待确认」工单，支持分派、复测、关闭；禁止用重复灌库强行关闭检索类问题。</li>
+      </ul>
+    </section>
+
+    <!-- 4 -->
+    <section id="s4">
+      <h2>4. 技术架构</h2>
+      <p class="muted">技术选型强调可落地、可审计、可单节点试点，兼顾后续扩展。</p>
+
+      <h3>4.1 分层技术架构</h3>
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart TB
+  subgraph UI["表现层"]
+    FE["React + TypeScript + Vite\n企业工作台 EnterpriseApp"]
+  end
+  subgraph API["服务层"]
+    SV["Node.js API\n会话 · ACL · 业务模块"]
+  end
+  subgraph CORE["能力层"]
+    RET["混合检索\nBM25 + 向量 RRF"]
+    RAG["问答编排\n引用 / 场景 / 工具"]
+    PARSE["多模态解析\nOCR / ASR / 表格"]
+    GRAPH["图谱与对象"]
+  end
+  subgraph DATA["数据层"]
+    DB["SQLite WAL\n元数据 / 索引 / 实体"]
+    UP["原件库 uploads\nSHA-256"]
+  end
+  subgraph EXT["外部服务"]
+    LLM["大模型 / Ollama"]
+    EMB["向量嵌入服务"]
+  end
+  FE --> SV
+  SV --> RET & RAG & PARSE & GRAPH
+  RET & RAG & PARSE & GRAPH --> DB & UP
+  RAG --> LLM
+  RET --> EMB
+        </pre>
+        <div class="caption">图 4　技术分层架构</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="layer-card">
+          <h4>前端</h4>
+          <p>统一企业壳与七大导航；文档预览、图谱可视化、运行追踪与完整性面板；按角色呈现菜单与操作。</p>
+        </div>
+        <div class="layer-card">
+          <h4>API 与业务模块</h4>
+          <p>统一入口处理认证、权限、文档生命周期、检索问答、属性 / 卡片 / 需求池、标准接口、备份与审计。</p>
+        </div>
+        <div class="layer-card">
+          <h4>检索与智能</h4>
+          <p>中文 BM25 全文 + 可选向量融合；无向量时可降级；问答强调证据包与引用校验，缺失依据时明确拒答或提示不足。</p>
+        </div>
+        <div class="layer-card">
+          <h4>存储与运行</h4>
+          <p>单节点 SQLite（WAL）+ 原件目录；模型密钥服务端密封；本地运行追踪与用量账本，便于试点阶段运维。</p>
+        </div>
+      </div>
+
+      <h3>4.2 多模态处理链路</h3>
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart LR
+  F["上传文件\n≤100MB"] --> Q["任务队列"]
+  Q --> P{"类型判断"}
+  P -->|文本/Office| T["文本抽取"]
+  P -->|PDF扫描| O["OCR"]
+  P -->|表格| TAB["表格结构化"]
+  P -->|音视频| AV["ASR / 抽帧OCR"]
+  T & O & TAB & AV --> CHK["分块 · 索引"]
+  CHK --> REV["人工审核发布"]
+  REV --> IDX["可检索知识"]
+        </pre>
+        <div class="caption">图 5　多模态接入与发布链路</div>
+      </div>
+
+      <h3>4.3 问答与检索技术路径</h3>
+      <table>
+        <thead>
+          <tr><th>环节</th><th>做法</th><th>领导关注点</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>检索</td>
+            <td>BM25 + 可选向量，RRF 融合；可叠加已确认图谱路径</td>
+            <td>先保证「找得到原文」，再谈生成</td>
+          </tr>
+          <tr>
+            <td>生成</td>
+            <td>可配置兼容 Chat Completions 或本地 Ollama</td>
+            <td>模型可替换，不绑死单一厂商</td>
+          </tr>
+          <tr>
+            <td>引用</td>
+            <td>答复区分归纳 / 摘录 / 依据不足；回链页码或证据块</td>
+            <td>可核验，降低幻觉风险</td>
+          </tr>
+          <tr>
+            <td>补全</td>
+            <td>smart 仅结构澄清；knowledge 必须有证据；否则进需求池</td>
+            <td>不凭常识编造企业时限、审批权限等</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 5 -->
+    <section id="s5">
+      <h2>5. 核心业务闭环</h2>
+      <p>平台不是「一次上传、永久可用」，而是持续运营的知识供应链。</p>
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart TD
+  S1["① 接入\n上传 / 同步"] --> S2["② 加工\n解析 · 索引 · 属性"]
+  S2 --> S3["③ 核验\n证据 · 图谱 · 重复冲突"]
+  S3 --> S4["④ 发布\n审核 · 版本 · 生效失效"]
+  S4 --> S5["⑤ 应用\n查找 · 问答 · 场景 · 接口"]
+  S5 --> S6["⑥ 回流\n反馈 · 完整性 · 需求池"]
+  S6 --> S7["⑦ 改进\n补卡 · 修订 · 评测回归"]
+  S7 --> S4
+        </pre>
+        <div class="caption">图 6　知识运营七步闭环</div>
+      </div>
+      <div class="grid-3">
+        <div class="value-card">
+          <h4>发布状态机</h4>
+          <p>资料：排队 → 解析 → 待审 → 已发布；卡片：草稿 → 审核 → 有证据后发布；图谱关系需人工确认。</p>
+        </div>
+        <div class="value-card">
+          <h4>质量回流</h4>
+          <p>用户反馈可沉淀为可学习结论；问答缺口进入需求池；评测题库检验场景版本是否可发布。</p>
+        </div>
+        <div class="value-card">
+          <h4>对外赋能</h4>
+          <p>标准知识接口绑定库 / 场景 / 任务范围，密钥可轮换；调用方无法扩大授权边界。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section id="s6">
+      <h2>6. 安全、治理与建设边界</h2>
+      <div class="grid-2">
+        <div class="mod-card">
+          <h4>安全与权限</h4>
+          <p>
+            · 知识库可见范围：企业 / 部门 / 指定成员<br/>
+            · 文档保密级别：内部 / 受限<br/>
+            · 列表、原件、搜索、问答、接口均服务端鉴权<br/>
+            · 写操作 Origin 校验；会话 HttpOnly<br/>
+            · 关键动作进入操作审计
+          </p>
+        </div>
+        <div class="mod-card">
+          <h4>治理原则（明确不做）</h4>
+          <p>
+            · 属性标签<strong>不替代</strong>文档 ACL<br/>
+            · 不自动把多来源冲突揉成「唯一标准答案」<br/>
+            · 不凭模型常识填写审批权限、时限、金额等企业事实<br/>
+            · 知识卡片<strong>不替代</strong>正式文件法律效力<br/>
+            · 当前定位：部门试点可部署，非已验收的高可用集群
+          </p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <strong>管理提示：</strong>
+        平台产出的答复与卡片是「可追溯的业务辅助口径」。涉及对外承诺、审批结论、安全操作时，仍应以现行有效正式文件与制度流程为准。
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section id="s7">
+      <h2>7. 建设成效与推进建议</h2>
+      <h3>7.1 已形成的能力资产</h3>
+      <ul>
+        <li>覆盖接入、资产、应用、治理、运营、管理的完整功能骨架。</li>
+        <li>多模态处理与混合检索底座，支持「无向量也可用、有向量更准」。</li>
+        <li>引用式问答 + 场景评测发布，降低不可核验答复进入生产的风险。</li>
+        <li>属性 / 卡片 / 完整性 / 需求池打通「发现缺口 → 补知识 → 再验证」闭环。</li>
+        <li>标准知识接口便于与既有业务系统集成，避免把大模型裸接进业务。</li>
+      </ul>
+      <h3>7.2 建议推进节奏</h3>
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart LR
+  P1["阶段一\n选试点业务域\n建库 · 授权 · 核心制度入库"] --> P2["阶段二\n场景化问答上线\n卡片与属性运营"]
+  P2 --> P3["阶段三\n需求池驱动补齐\n评测门槛固化"]
+  P3 --> P4["阶段四\n标准接口赋能业务系统\n运维与备份规范"]
+        </pre>
+        <div class="caption">图 7　建议建设节奏</div>
+      </div>
+      <table>
+        <thead>
+          <tr><th>阶段</th><th>目标</th><th>衡量方式（示例）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>阶段一</td><td>核心资料可检索、权限清晰</td><td>入库覆盖率、发布通过率</td></tr>
+          <tr><td>阶段二</td><td>高频问题可带依据回答</td><td>引用完整率、用户有效反馈占比</td></tr>
+          <tr><td>阶段三</td><td>缺口可分派、可关闭、可复测</td><td>需求池关闭周期、复测通过率</td></tr>
+          <tr><td>阶段四</td><td>业务系统稳定调用知识服务</td><td>接口成功率、越权拦截审计</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <p class="foot">
+      《企业多模态知识库平台介绍》 · 供决策沟通与建设对齐使用<br/>
+      技术实现以现行 X-RAG 企业知识平台代码与配置为准 · 浏览器打开本文档可查看交互式架构图 · 打印亦可保留版式
+    </p>
+  </div>
+</body>
+</html>

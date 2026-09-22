@@ -1,0 +1,14 @@
+import type { ChatMessage, Coverage, SearchResult } from './types';
+
+export interface ToolResult { tool: string; version?: string; status: string; result?: unknown; coverage?: Coverage; citations?: SearchResult[]; calculation?: unknown; missing?: unknown }
+export interface RunStep { id?: string; stepId?: string; name?: string; label?: string; type?: string; status: string; startedAt?: string; completedAt?: string; durationMs?: number; error?: string; errorCode?:string; result?: unknown }
+export interface ChatRun { id: string; conversationId: string; conversationRevision?: number; question: string; status: string; revision: number; attempt: number; traceId: string; scenarioVersionId?: string; createdAt: string; updatedAt: string; error?: string | {message?: string}; errorMessage?:string; errorCode?:string; waitingFor?: { inputRequestId?: string; question?: string; message?: string; fields?: Array<string | {name:string;label?:string;type?:string;required?:boolean;options?:string[]}> }; result?: ChatMessage & { toolResults?: ToolResult[]; context?: unknown } }
+export interface RunDetail { run: ChatRun; steps: RunStep[]; result?: ChatRun['result'] }
+export interface RunEvent { runId: string; eventId: string; sequence: number; type: string; timestamp: string; payload: Record<string, unknown> }
+export interface JsonSchema { type: 'object'; properties: Record<string, {type: string; title?: string; description?: string; enum?:Array<string|number>}>; required?: string[] }
+export interface ScenarioCase { question: string; baseId?: string; expectedTerms?: string[]; expectedDocumentId?: string; mustRefuse?: boolean }
+export interface ScenarioVersion { id: string; templateId: string; version: number; name: string; scenario: string; goal: string; inputSchema: JsonSchema; outputSchema: JsonSchema; allowedTools: string[]; modelProfile?: {profile:string}; evaluationCases?: ScenarioCase[]; exampleQuestions?: string[]; status: string; revision: number; evaluationRef?: string; evaluation?: unknown; createdAt?: string }
+export interface BusinessScenario { id: string; name: string; scenario: string; activeVersionId?: string; currentVersionId?: string; versions: ScenarioVersion[] }
+export interface ToolCapability { name: string; label: string; available: boolean; reason?: string; inputSchema?: JsonSchema }
+export const runLabels: Record<string,string> = { queued:'等待处理', running:'正在处理', started:'已受理', cancel_requested:'正在取消', completed:'已完成', succeeded:'已完成', waiting_input:'待补充条件', partial:'部分完成', cancelled:'已取消', interrupted:'已中断', failed:'处理失败', draft:'草稿', evaluating:'评测中', review:'待审核', published:'已发布', disabled:'已停用', pending:'等待处理', skipped:'未执行' };
+export function isActiveRun(status?: string) { return Boolean(status && ['queued','running','started','waiting_input','cancel_requested'].includes(status)); }

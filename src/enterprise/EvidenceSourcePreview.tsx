@@ -1,0 +1,14 @@
+import { useEffect, useRef, useState } from 'react';
+import { Loading, Notice } from './components';
+import type { KnowledgeDocument } from './types';
+import type { EvidenceLocator } from './EvidenceReview';
+
+export function EvidenceSourcePreview({document,locator}:{document:KnowledgeDocument;locator:EvidenceLocator}){
+  const canvas=useRef<HTMLCanvasElement>(null);const host=useRef<HTMLDivElement>(null);const [loading,setLoading]=useState(false);const [error,setError]=useState('');const pdf=document.mimeType==='application/pdf';
+  useEffect(()=>{if(!pdf)return;let alive=true;let cancel:(()=>void)|undefined;setLoading(true);setError('');
+    void (async()=>{const pdfjs=await import('pdfjs-dist');pdfjs.GlobalWorkerOptions.workerSrc=new URL('../../node_modules/pdfjs-dist/build/pdf.worker.min.mjs',import.meta.url).href;const task=pdfjs.getDocument({url:`/api/documents/${document.id}/preview`,withCredentials:true});cancel=()=>{void task.destroy();};const source=await task.promise;if(!alive)return;const page=await source.getPage(Math.max(1,Math.min(source.numPages,locator.page||1)));if(!alive||!canvas.current)return;const natural=page.getViewport({scale:1});const scale=Math.min(1.6,(host.current?.clientWidth||620)/natural.width);const viewport=page.getViewport({scale});const node=canvas.current;node.width=Math.ceil(viewport.width);node.height=Math.ceil(viewport.height);const context=node.getContext('2d');if(!context)throw new Error('浏览器无法显示原页画布。');await page.render({canvas:node,canvasContext:context,viewport}).promise;if(alive)setLoading(false);})().catch(e=>{if(alive){setError(e instanceof Error?e.message:'原页暂时无法显示，请下载原件核验。');setLoading(false);}});
+    return()=>{alive=false;cancel?.();};
+  },[document.id,pdf,locator.page]);
+  const box=locator.bbox;const canHighlight=locator.coordinateSystem==='image-top-left'&&Boolean(locator.pageWidth&&locator.pageHeight)&&box?.length===4&&box.every(Number.isFinite)&&box[2]>box[0]&&box[3]>box[1];
+  return <div className="e-stack">{loading&&<Loading text="正在读取证据对应原页…"/>}{error&&<Notice kind="warning">原页显示未完成：{error}。可以下载原件继续核验。</Notice>}<div className="e-evidence-page" ref={host}>{pdf?<canvas ref={canvas} aria-label="证据对应的原始 PDF 页面"/>:document.mimeType?.startsWith('image/')?<img src={`/api/documents/${document.id}/preview`} alt={document.fileName} onError={()=>setError("无法读取原件图像")}/>:<Notice>当前格式请下载原件核验来源位置。</Notice>}{canHighlight&&!loading&&!error&&<span className="e-evidence-bbox" aria-label="当前单元格在原件中的位置" style={{left:`${box![0]/locator.pageWidth!*100}%`,top:`${box![1]/locator.pageHeight!*100}%`,width:`${(box![2]-box![0])/locator.pageWidth!*100}%`,height:`${(box![3]-box![1])/locator.pageHeight!*100}%`}}/>}</div><p className="e-muted">{canHighlight?'黄色框标出解析器提供的原件区域，仍需人工核验内容。':'未提供可验证的页面坐标，不绘制推测位置。'}</p><a className="e-text-link" href={`/api/documents/${document.id}/file`} target="_blank" rel="noreferrer">下载原件核验</a></div>;
+}

@@ -1,0 +1,348 @@
+.knowledge-text-background {
+  pointer-events: none;
+  position: fixed;
+  inset: 0 0 0 16rem;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.95;
+}
+
+.knowledge-bg-row {
+  position: absolute;
+  left: -12%;
+  width: 124%;
+  overflow: hidden;
+  transform: rotate(-5deg);
+}
+
+.knowledge-bg-row-a {
+  top: 12%;
+}
+
+.knowledge-bg-row-b {
+  top: 44%;
+  transform: rotate(4deg);
+}
+
+.knowledge-bg-row-c {
+  bottom: 12%;
+  transform: rotate(-2deg);
+}
+
+.knowledge-bg-track {
+  display: flex;
+  width: max-content;
+  gap: 2.2rem;
+  white-space: nowrap;
+  color: rgba(79, 70, 229, 0.055);
+  font-weight: 600;
+  will-change: transform;
+  animation: knowledge-bg-drift 84s linear infinite;
+}
+
+.knowledge-bg-row-b .knowledge-bg-track {
+  color: rgba(51, 65, 85, 0.045);
+  animation-duration: 104s;
+  animation-name: knowledge-bg-drift-reverse;
+}
+
+.knowledge-bg-row-c .knowledge-bg-track {
+  color: rgba(16, 185, 129, 0.05);
+  animation-duration: 118s;
+}
+
+.knowledge-bg-track .is-small {
+  font-size: 12px;
+}
+
+.knowledge-bg-track .is-medium {
+  font-size: 14px;
+}
+
+.knowledge-bg-track .is-large {
+  font-size: 18px;
+}
+
+.animated-logo {
+  position: relative;
+  display: flex;
+  height: 5rem;
+  align-items: center;
+  gap: 0.75rem;
+  overflow: hidden;
+  padding-inline: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.animated-logo-mark {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #818cf8, #a78bfa, #67e8f9);
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 800;
+  box-shadow: 0 12px 34px rgba(79, 70, 229, 0.18);
+}
+
+.animated-logo-title {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(90deg, #ffffff, #c7d2fe 45%, #a7f3d0);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  animation: logo-title-flow 12s ease-in-out infinite;
+}
+
+.animated-logo-subtitle {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.125rem;
+  color: rgb(148 163 184);
+  font-size: 0.75rem;
+}
+
+.animated-logo-particles {
+  pointer-events: none;
+  position: absolute;
+  inset: 0.55rem 0.8rem;
+}
+
+.logo-particle {
+  position: absolute;
+  color: rgba(199, 210, 254, 0.22);
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.45;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 180ms ease, transform 220ms ease;
+  animation: logo-particle-float 7s ease-in-out infinite;
+}
+
+.logo-particle-1 {
+  left: 3.3rem;
+  top: 0.1rem;
+}
+
+.logo-particle-2 {
+  left: 5.8rem;
+  top: 2.85rem;
+  animation-delay: -1.4s;
+}
+
+.logo-particle-3 {
+  right: 2.8rem;
+  top: 0.55rem;
+  animation-delay: -2.2s;
+}
+
+.logo-particle-4 {
+  right: 1.2rem;
+  bottom: 0.6rem;
+  animation-delay: -3.1s;
+}
+
+.logo-particle-5 {
+  left: 1rem;
+  bottom: 0.7rem;
+  animation-delay: -4s;
+}
+
+.animated-logo:hover .logo-particle {
+  opacity: 0.85;
+  transform: translate3d(0, -1px, 0);
+}
+
+.knowledge-click-layer {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+}
+
+.knowledge-click-effect {
+  position: fixed;
+  height: 0;
+  width: 0;
+}
+
+.knowledge-click-ripple {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 8px;
+  width: 8px;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.14);
+  transform: translate(-50%, -50%) scale(0.4);
+  animation: knowledge-click-ripple 680ms ease-out forwards;
+}
+
+.knowledge-click-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #6366f1;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  animation: knowledge-click-particle 820ms ease-out forwards;
+}
+
+.knowledge-card {
+  position: relative;
+  isolation: isolate;
+  transition: transform 210ms ease, box-shadow 210ms ease, background-color 210ms ease;
+}
+
+.knowledge-card::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  height: 18px;
+  width: 18px;
+  border-top-right-radius: inherit;
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0) 48%, rgba(226, 232, 240, 0.7) 49%, rgba(238, 242, 255, 0.78) 100%);
+  opacity: 0;
+  transition: opacity 210ms ease, transform 210ms ease;
+}
+
+.knowledge-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.1);
+}
+
+.knowledge-card:hover::after {
+  opacity: 0.7;
+  transform: translate3d(-1px, 1px, 0);
+}
+
+.knowledge-button {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.knowledge-button:active {
+  transform: translateZ(0) scale(0.98);
+}
+
+.knowledge-button::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  height: 6px;
+  width: 6px;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.13);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.knowledge-button:active::after {
+  animation: knowledge-button-pulse 220ms ease-out;
+}
+
+@keyframes knowledge-bg-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes knowledge-bg-drift-reverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes logo-title-flow {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+@keyframes logo-particle-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(6px, -3px, 0);
+  }
+}
+
+@keyframes knowledge-click-ripple {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(8);
+  }
+}
+
+@keyframes knowledge-click-particle {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  18% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--kx)), calc(-50% + var(--ky))) scale(0.98);
+  }
+}
+
+@keyframes knowledge-button-pulse {
+  0% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knowledge-bg-track,
+  .animated-logo-title,
+  .logo-particle,
+  .knowledge-click-ripple,
+  .knowledge-click-particle,
+  .knowledge-button::after {
+    animation: none !important;
+  }
+
+  .knowledge-card,
+  .knowledge-button {
+    transition: none !important;
+  }
+}

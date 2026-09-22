@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const origin=process.env.GRAPH_VERIFY_ORIGIN||'http://127.0.0.1:8787';
+const output='output/knowledge-graph';
+mkdirSync(output,{recursive:true});
+const get=async path=>{const res=await fetch(origin+path);const body=await res.json();assert.ok(res.ok,JSON.stringify({path,status:res.status,body}));return body;};
+const before=JSON.parse(readFileSync(output+'/before-documents.json','utf8'));
+const current=await get('/api/documents?limit=100');
+const originals=[];
+for(const old of before){const currentDoc=current.documents.find(d=>d.id===old.id);assert.ok(currentDoc,'Original missing: '+old.id);assert.equal(currentDoc.sha256,old.sha256);assert.equal(currentDoc.status,old.status);const res=await fetch(origin+'/api/documents/'+old.id+'/file');assert.ok(res.ok,'Original download failed: '+old.id);const hash=createHash('sha256').update(Buffer.from(await res.arrayBuffer())).digest('hex');assert.equal(hash,old.sha256);originals.push({id:old.id,sha256:hash,unchanged:true});}
+const full=await get('/api/graph?status=confirmed');
+assert.ok(full.nodes.length>0&&full.edges.length>0,'Confirmed graph is empty');
+const query='SYN-EQ-005关联的工单、资料问题和核验规程是什么？';
+const graph=await get('/api/graph?'+new URLSearchParams({query,hops:'3',status:'confirmed'}));
+const paths=graph.paths||[];
+const target=paths.find(p=>p.nodes.some(n=>n.name==='SYN-EQ-005'||n.externalId==='SYN-EQ-005')&&p.nodes.some(n=>n.name==='SYN-PROC-007'||n.externalId==='SYN-PROC-007'));
+assert.ok(target,'Missing three-hop equipment to procedure path');
+assert.equal(target.edges.length,3);assert.ok(new Set(target.edges.map(e=>e.documentId)).size>=3,'Path must cross actual documents');
+for(const edge of target.edges){assert.ok(edge.documentId&&edge.blockId&&Number.isInteger(edge.rowNumber),'Edge missing evidence locator');}
+const found=await get('/api/search?'+new URLSearchParams({q:query,limit:'12'}));
+assert.ok(found.graph?.paths?.some(p=>p.id===target.id),'Search did not preserve graph path');
+assert.ok(found.results.some(r=>r.text.includes('按设备编码、资料主题和版本标识核对附件名称')),'Procedure text absent from retrieval');
+const unknown=await get('/api/graph?query=SYN-NOT-EXIST-999&hops=3');assert.equal(unknown.paths.length,0,'Unknown entity must not fabricate paths');
+const modelRequest=JSON.parse(readFileSync(output+'/model-run-request.json','utf8'));
+const modelRun=(await get('/api/chat/runs/'+modelRequest.run.id)).run;
+assert.equal(modelRun.status,'succeeded');assert.equal(modelRun.result.mode,'model');
+const modelPath=modelRun.result.graphPaths.find(p=>p.edges.length===3&&p.nodes.some(n=>n.externalId==='SYN-PROC-007'));
+assert.ok(modelPath,'Model answer lost its complete graph path');
+for(const edge of modelPath.edges)assert.ok(modelRun.result.citations.some(c=>c.documentId===edge.documentId),'Model path edge not cited');
+const modelTrace=await get('/api/observability/traces/'+modelRun.traceId);
+assert.ok(modelTrace.spans.some(s=>s.operation==='retrieval.graph'&&s.status==='succeeded'));
+assert.ok(modelTrace.calls.some(c=>c.feature==='chat_run'&&c.status==='succeeded'));
+const readiness=await get('/ready.json');
+const report={checkedAt:new Date().toISOString(),query,originals,currentDocumentCount:current.documents.length,graph:{stats:full.stats,nodes:full.nodes.length,edges:full.edges.length},targetPath:target,search:{strategy:found.strategy,paths:found.graph.paths.length,documents:[...new Set(found.results.map(r=>r.documentId))]},unknownEntityPaths:unknown.paths.length,model:{runId:modelRun.id,traceId:modelRun.traceId,mode:modelRun.result.mode,citations:modelRun.result.citations.length,hops:modelPath.edges.length},readiness};
+writeFileSync(output+'/live-verification.json',JSON.stringify(report,null,2));
+console.log(JSON.stringify({ok:true,originals:originals.length,documents:current.documents.length,nodes:full.nodes.length,edges:full.edges.length,hops:target.edges.length,crossDocuments:new Set(target.edges.map(e=>e.documentId)).size,searchPaths:found.graph.paths.length}));

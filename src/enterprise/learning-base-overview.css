@@ -1,0 +1,15 @@
+.kw-learning-overview { border-color: #dde8f5; }
+.kw-learning-overview-heading { display: flex; align-items: center; gap: 12px; }
+.kw-learning-overview-icon { width: 42px; height: 42px; display: grid; place-items: center; flex-shrink: 0; color: #3977b8; background: #eef5fd; border: 1px solid #dfebfa; border-radius: 10px; }
+.kw-learning-overview-label { display: block; margin-bottom: 5px; color: #7890aa; font-size: 11px; }
+.kw-learning-overview-heading h2 { margin: 0; font-size: 17px; line-height: 1.5; }
+.kw-learning-overview-intro { margin: 18px 0 16px; color: #62778d; font-size: 13px; line-height: 1.85; }
+.kw-learning-overview-flow { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 11px 12px; border-radius: 7px; background: #f5f8fc; color: #52749a; font-size: 12px; }
+.kw-learning-overview-flow svg { flex-shrink: 0; color: #9bacbf; }
+.kw-learning-overview dl { display: grid; gap: 16px; margin: 21px 0; }
+.kw-learning-overview dl > div { display: grid; grid-template-columns: 60px minmax(0,1fr); gap: 12px; align-items: start; }
+.kw-learning-overview dt { color: #8796a7; font-size: 12px; line-height: 1.85; }
+.kw-learning-overview dd { margin: 0; color: #4c637b; font-size: 13px; line-height: 1.85; }
+.kw-learning-overview-footer { display: flex; align-items: flex-start; gap: 6px; margin: 0; padding-top: 14px; border-top: 1px solid #edf1f6; color: #8a9aac; font-size: 11px; line-height: 1.7; }
+.kw-learning-overview-footer svg { flex-shrink: 0; margin-top: 3px; }
+@media (max-width: 480px) { .kw-learning-overview dl > div { gap: 10px; grid-template-columns: 52px minmax(0,1fr); } .kw-learning-overview-flow { padding: 10px; font-size: 11px; } }

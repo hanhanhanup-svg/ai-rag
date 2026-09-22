@@ -1,0 +1,186 @@
+.ms-page { display: flex; flex-direction: column; gap: 18px; }
+
+.ms-default-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid #c9d8ea;
+  border-radius: 14px;
+  background: linear-gradient(165deg, #f3f8ff, #fff);
+}
+
+.ms-default-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.ms-default-main > svg { color: #2768b7; flex-shrink: 0; margin-top: 2px; }
+.ms-eyebrow { margin: 0 0 4px; font-size: 12px; color: #5a7188; letter-spacing: 0.04em; }
+.ms-default-main strong { display: block; font-size: 20px; color: #16324d; margin-bottom: 4px; }
+.ms-default-main .e-muted { margin: 0; }
+
+.ms-default-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+}
+
+.ms-inline-field { min-width: min(100%, 280px); flex: 1; }
+
+.ms-section { display: flex; flex-direction: column; gap: 12px; }
+.ms-section-head h2 { margin: 0 0 4px; font-size: 18px; color: #1a2b3d; }
+.ms-section-head .e-muted { margin: 0; }
+
+.ms-provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.ms-provider-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #d7e0ea;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.ms-provider-card.is-default { border-color: #9ec0e8; box-shadow: 0 8px 22px rgba(39, 104, 183, 0.08); }
+.ms-provider-card header { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.ms-provider-card h3 { margin: 0 0 4px; font-size: 16px; color: #1a2b3d; }
+.ms-provider-card header .e-muted { margin: 0; font-size: 12px; word-break: break-all; }
+
+.ms-status {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1.2;
+  border: 1px solid transparent;
+}
+.ms-status.tone-ok { color: #0f6b45; background: #e8f7ef; border-color: #b7e4cb; }
+.ms-status.tone-warn { color: #8a5a00; background: #fff6e5; border-color: #f0d59a; }
+.ms-status.tone-bad { color: #9b1c1c; background: #fdecec; border-color: #f0b6b6; }
+.ms-status.tone-muted { color: #5a7188; background: #f2f5f8; border-color: #d7e0ea; }
+
+.ms-model-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ms-model-chips li {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f4f7fb;
+  color: #31495f;
+  font-size: 12px;
+}
+
+.ms-error-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  color: #9b1c1c;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ms-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: auto;
+}
+
+.ms-default-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #1f4f8a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.e-btn.danger { color: #9b1c1c; border-color: #f0b6b6; }
+.e-btn.danger:hover { background: #fdecec; }
+
+.ms-wizard { display: flex; flex-direction: column; gap: 14px; }
+.ms-wizard-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ms-wizard-head h2 { margin: 0; }
+
+.ms-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ms-steps button,
+.ms-steps span {
+  border: 1px solid #d7e0ea;
+  background: #f7fafc;
+  color: #5a7188;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+.ms-steps button { cursor: pointer; }
+.ms-steps .active {
+  color: #1f4f8a;
+  border-color: #9ec0e8;
+  background: #eef5ff;
+  font-weight: 600;
+}
+
+.ms-preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.ms-preset-card {
+  text-align: left;
+  border: 1px solid #d7e0ea;
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+  cursor: pointer;
+}
+.ms-preset-card:hover,
+.ms-preset-card.is-selected {
+  border-color: #7aa7d9;
+  background: #f5f9ff;
+}
+.ms-preset-card strong { display: block; margin-bottom: 6px; color: #16324d; }
+.ms-preset-card p { margin: 0; color: #5a7188; font-size: 12px; line-height: 1.45; }
+.ms-env-tag {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #0f6b45;
+  background: #e8f7ef;
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.ms-models-area { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+.ms-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #31495f;
+}
+
+@media (max-width: 720px) {
+  .ms-default-actions { align-items: stretch; }
+  .ms-inline-field { min-width: 100%; }
+}

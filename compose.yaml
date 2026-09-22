@@ -1,0 +1,17 @@
+services:
+  knowledge:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8787:8787"
+    env_file:
+      - .env.local
+    environment:
+      API_HOST: 0.0.0.0
+      DATA_DIR: /app/data
+      CONNECTOR_ROOTS: /app/knowledge-sources
+    volumes:
+      - knowledge-data:/app/data
+      - ./knowledge-sources:/app/knowledge-sources:ro
+volumes:
+  knowledge-data:

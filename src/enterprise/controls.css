@@ -1,0 +1,362 @@
+/* Unified enterprise controls. Loaded after page styles so every workflow uses
+   the same dimensions, colors and interaction states. Portal tokens are repeated
+   on their root because dropdowns may live outside the enterprise shell. */
+.enterprise,
+.xc-select-popover {
+  --xc-font: Inter, "Segoe UI", "Microsoft YaHei", sans-serif;
+  --xc-height: 42px;
+  --xc-radius: 9px;
+  --xc-surface: #fff;
+  --xc-surface-soft: #f5f8fc;
+  --xc-ink: #243c55;
+  --xc-muted: #64788e;
+  --xc-placeholder: #64788e;
+  --xc-line: #ccd9e6;
+  --xc-line-hover: #8aaecb;
+  --xc-accent: #246cd1;
+  --xc-accent-ink: #165aaf;
+  --xc-focus: #246cd122;
+  --xc-selected: #eaf3ff;
+  --xc-hover: #f0f6fc;
+  --xc-error: #c84a58;
+  --xc-error-ring: #c84a581b;
+  --xc-shadow: 0 1px 2px #152f4b05, inset 0 1px 0 #ffffffb3;
+}
+
+/* Text entry excludes checkboxes, files, radios, ranges and hidden fields. */
+.enterprise :is(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"], textarea, select:not(.xc-select-native)) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  min-height: var(--xc-height);
+  padding: 9px 12px;
+  border: 1px solid var(--xc-line);
+  border-radius: var(--xc-radius);
+  background: var(--xc-surface);
+  color: var(--xc-ink);
+  font-family: var(--xc-font);
+  /* Previous form rules use !important for small text; this one migration
+     override makes all editable values consistently readable. */
+  font-size: 14px !important;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  box-shadow: var(--xc-shadow);
+  outline: 0;
+  color-scheme: light;
+  caret-color: var(--xc-accent);
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.enterprise :is(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"]) {
+  height: var(--xc-height);
+}
+
+.enterprise :is(input, textarea):not([type="hidden"])::placeholder {
+  color: var(--xc-placeholder);
+  opacity: 1;
+  font-weight: 400;
+}
+
+.enterprise :is(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"], textarea, select:not(.xc-select-native)):hover:not(:disabled):not(:read-only) {
+  border-color: var(--xc-line-hover);
+}
+
+.enterprise :is(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"], textarea, select:not(.xc-select-native)):focus {
+  border-color: var(--xc-accent);
+  box-shadow: 0 0 0 3px var(--xc-focus), var(--xc-shadow);
+  outline: 0;
+}
+
+.enterprise textarea:not(.xc-select-search) {
+  width: 100%;
+  height: auto;
+  min-height: 116px;
+  padding: 11px 13px;
+  line-height: 1.75;
+  resize: vertical;
+  scrollbar-width: thin;
+  scrollbar-color: #b8cadd transparent;
+}
+
+.enterprise :is(input, textarea)[readonly] {
+  background: var(--xc-surface-soft);
+  border-color: #dce5ee;
+  color: #536b83;
+  box-shadow: none;
+}
+
+.enterprise :is(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"], textarea, select:not(.xc-select-native)):disabled {
+  cursor: not-allowed;
+  color: #77899b;
+  background: #f0f4f8;
+  border-color: #dce4ed;
+  box-shadow: none;
+  opacity: 1;
+  -webkit-text-fill-color: #77899b;
+}
+
+.enterprise :is(input, textarea):is([aria-invalid="true"], :user-invalid) {
+  border-color: var(--xc-error);
+  background-color: #fffafb;
+}
+
+.enterprise :is(input, textarea):is([aria-invalid="true"], :user-invalid):focus {
+  box-shadow: 0 0 0 3px var(--xc-error-ring);
+}
+
+.enterprise input:-webkit-autofill,
+.enterprise input:-webkit-autofill:hover {
+  -webkit-text-fill-color: var(--xc-ink);
+  -webkit-box-shadow: 0 0 0 1000px var(--xc-surface) inset;
+  caret-color: var(--xc-accent);
+}
+
+.enterprise input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--xc-surface) inset, 0 0 0 3px var(--xc-focus);
+}
+
+.enterprise input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: .66;
+  padding: 3px;
+  margin-right: -3px;
+  border-radius: 4px;
+}
+
+.enterprise input::-webkit-calendar-picker-indicator:hover { opacity: 1; background: #eaf2fb; }
+.enterprise input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
+.enterprise input:is([type="checkbox"], [type="radio"], [type="range"]) { accent-color: var(--xc-accent); }
+.enterprise .e-field { gap: 8px; color: #49617a; line-height: 1.5; }
+
+/* A select's outer span keeps its original page sizing class. The trigger owns
+   the visual surface; removing the wrapper border prevents nested boxes. */
+.xc-select {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  vertical-align: middle;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  text-align: left;
+}
+
+.enterprise .xc-select.e-input {
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--xc-radius);
+  background: transparent;
+  box-shadow: none;
+}
+
+.enterprise .xc-select > .xc-select-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-width: 0;
+  min-height: 0;
+  max-width: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.enterprise .xc-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--xc-height);
+  padding: 9px 11px 9px 12px;
+  border: 1px solid var(--xc-line);
+  border-radius: var(--xc-radius);
+  background: var(--xc-surface);
+  color: var(--xc-ink);
+  font: 400 14px/1.5 var(--xc-font);
+  letter-spacing: 0;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--xc-shadow);
+  outline: 0;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.enterprise .xc-select-trigger:hover:not(:disabled) { border-color: var(--xc-line-hover); background: #fcfdff; }
+.enterprise .xc-select-trigger:focus-visible,
+.enterprise .xc-select[data-state="open"] > .xc-select-trigger {
+  border-color: var(--xc-accent);
+  box-shadow: 0 0 0 3px var(--xc-focus), var(--xc-shadow);
+  outline: 0;
+}
+
+.xc-select-validation { display: block; margin-top: 6px; color: var(--xc-error); font: 400 12px/1.5 var(--xc-font); white-space: normal; }
+.xc-select-value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.xc-select-value[data-placeholder="true"] { color: var(--xc-placeholder); }
+.xc-select-indicator { display: grid; place-items: center; width: 22px; height: 22px; color: #6a8caa; flex-shrink: 0; border-radius: 5px; }
+.xc-select-indicator > svg { width: 16px; height: 16px; transition: transform 150ms ease; }
+.xc-select[data-state="open"] .xc-select-indicator { color: var(--xc-accent); background: var(--xc-selected); }
+.xc-select[data-state="open"] .xc-select-indicator > svg { transform: rotate(180deg); }
+.enterprise .xc-select-trigger:disabled { color: #77899b; background: #f0f4f8; border-color: #dce4ed; box-shadow: none; opacity: 1; cursor: not-allowed; }
+.xc-select[data-disabled="true"] .xc-select-indicator { color: #a5b3c1; }
+.enterprise .xc-select:is([data-invalid="true"], :has(> .xc-select-native:user-invalid)) > .xc-select-trigger { border-color: var(--xc-error); background: #fffafb; }
+.enterprise .xc-select:is([data-invalid="true"], :has(> .xc-select-native:user-invalid)) > .xc-select-trigger:focus-visible { box-shadow: 0 0 0 3px var(--xc-error-ring); }
+
+/* One shared list surface for every select, including lists in dialogs. */
+.xc-select-popover {
+  position: fixed;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: calc(100vw - 20px);
+  overflow: hidden;
+  padding: 5px;
+  border: 1px solid #bed0e3;
+  border-radius: 11px;
+  background: var(--xc-surface);
+  color: var(--xc-ink);
+  box-shadow: 0 16px 38px #193e6726, 0 3px 9px #193e6712;
+  font: 400 14px/1.5 var(--xc-font);
+  letter-spacing: 0;
+  text-align: left;
+  animation: xc-list-in 120ms ease-out;
+}
+
+.xc-select-popover, .xc-select-popover * { box-sizing: border-box; }
+.xc-select-popover[data-side="top"] { transform-origin: bottom; }
+.xc-select-popover[data-side="bottom"] { transform-origin: top; }
+.xc-select-search-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin: 2px 2px 6px; padding: 0 10px; min-height: 40px; border: 1px solid #dbe5f0; border-radius: 7px; background: var(--xc-surface-soft); color: #718ba5; }
+.xc-select-search-wrap > svg { width: 15px; height: 15px; flex-shrink: 0; }
+.xc-select-search-wrap:focus-within { border-color: var(--xc-accent); box-shadow: 0 0 0 2px var(--xc-focus); background: var(--xc-surface); }
+.xc-select-popover .xc-select-search {
+  width: 100%; min-width: 0; min-height: 36px; height: 36px; padding: 7px 0;
+  border: 0; border-radius: 0; outline: 0; background: transparent; color: var(--xc-ink);
+  box-shadow: none; font: 400 14px/1.5 var(--xc-font); caret-color: var(--xc-accent);
+}
+.enterprise .xc-select-popover .xc-select-search:focus { border: 0; box-shadow: none; outline: 0; }
+.xc-select-popover .xc-select-search::placeholder { color: var(--xc-placeholder); opacity: 1; }
+.xc-select-popover .xc-select-search::-webkit-search-cancel-button { cursor: pointer; }
+.xc-select-list { flex: 1; min-height: 0; padding: 2px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #b5c8dc transparent; }
+.xc-select-group-label { padding: 10px 11px 6px; color: var(--xc-muted); font-size: 11px; font-weight: 600; line-height: 1.5; letter-spacing: .03em; }
+.xc-select-popover .xc-select-option {
+  position: relative; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px;
+  padding: 9px 10px; margin: 1px 0; border: 1px solid transparent; border-radius: 7px;
+  background: transparent; color: var(--xc-ink); cursor: pointer; text-align: left;
+  font: 400 14px/1.5 var(--xc-font); letter-spacing: 0; outline: 0;
+  transition: background-color 100ms ease, color 100ms ease;
+}
+.xc-select-option-label { flex: 1; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.xc-select-option > svg { flex-shrink: 0; width: 16px; height: 16px; color: var(--xc-accent); }
+.xc-select-popover .xc-select-option:hover:not(:disabled):not([data-disabled="true"]),
+.xc-select-popover .xc-select-option[data-active="true"] { background: var(--xc-hover); }
+.xc-select-popover .xc-select-option[data-selected="true"] { background: var(--xc-selected); color: var(--xc-accent-ink); font-weight: 500; }
+.xc-select-popover .xc-select-option[data-active="true"][data-selected="true"] { background: #dcecff; }
+.xc-select-popover .xc-select-option:focus-visible { border-color: var(--xc-accent); box-shadow: inset 0 0 0 1px var(--xc-accent); outline: 0; }
+.xc-select-popover .xc-select-option:is(:disabled, [data-disabled="true"]) { color: #98a6b5; background: transparent; cursor: not-allowed; opacity: 1; }
+.xc-select-empty { padding: 23px 13px; text-align: center; color: var(--xc-muted); font-size: 13px; line-height: 1.8; }
+.xc-select-empty > span { display: block; margin-top: 5px; font-size: 12px; color: var(--xc-placeholder); }
+.xc-select-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; flex-shrink: 0; padding: 9px 10px 5px; margin: 4px 2px 0; border-top: 1px solid #e6edf5; color: #64788e; font-size: 11px; line-height: 1.6; }
+
+/* Existing toolbar limits apply to spans after native select replacement. */
+.enterprise .e-field > .xc-select { width: 100%; }
+.enterprise .e-toolbar > .xc-select { width: auto; min-width: 160px; max-width: 330px; }
+.enterprise .e-search-options .xc-select { width: 240px; max-width: 100%; }
+.enterprise .e-chat-scope .xc-select { width: 240px; max-width: 48%; }
+.enterprise .e-chat-scenario .xc-select { max-width: 420px; }
+.enterprise .ws-scope-toolbar .xc-select { flex: 1; max-width: 340px; }
+.enterprise .xg-query-options .xc-select { flex: 1; }
+.enterprise .xg-query-options label > .xc-select { font-size: 14px; white-space: normal; }
+
+/* Composite search / prompt fields have one outer surface and one focus ring. */
+.enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search, .e-chat-composer),
+.enterprise .ws-command form {
+  border: 1px solid var(--xc-line);
+  border-radius: 10px;
+  background: var(--xc-surface);
+  box-shadow: var(--xc-shadow);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search) { min-height: 46px; padding: 4px 6px 4px 12px; gap: 10px; }
+.enterprise .ws-command form { min-height: 50px; padding: 5px 7px 5px 14px; }
+.enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search, .e-chat-composer):hover,
+.enterprise .ws-command form:hover { border-color: var(--xc-line-hover); }
+.enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search, .e-chat-composer):focus-within,
+.enterprise .ws-command form:focus-within { border-color: var(--xc-accent); box-shadow: 0 0 0 3px var(--xc-focus), var(--xc-shadow); outline: 0; }
+.enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search, .xg-query-line) input,
+.enterprise .ws-command form input {
+  flex: 1; width: 100%; min-width: 0; height: 36px; min-height: 36px; padding: 6px 0;
+  border: 0; border-radius: 0; background: transparent; color: var(--xc-ink); box-shadow: none; outline: 0;
+}
+.enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search, .xg-query-line) input:focus,
+.enterprise .ws-command form input:focus { border: 0; box-shadow: none; outline: 0; }
+.enterprise .e-chat-composer textarea { min-height: 36px; max-height: 120px; padding: 2px 0 4px; border: 0; background: transparent; box-shadow: none; outline: 0; color: var(--xc-ink); resize: none; }
+.enterprise .e-chat-composer textarea:focus { border: 0; box-shadow: none; outline: 0; }
+.enterprise .e-chat-composer > div > span,
+.enterprise .e-chat-composer-actions > span { color: #71869b; font-size: 11px; }
+.enterprise .xg-query-line { min-height: 46px; padding: 3px 0; border-radius: 7px; }
+.enterprise .xg-query-line:focus-within { outline: 2px solid var(--xc-focus); outline-offset: 3px; }
+.enterprise .ws-command form:focus-within { border-color: #78bde3; box-shadow: 0 0 0 3px #7acbde33; }
+
+/* Dark graph canvases share the same geometry and interaction states. */
+.enterprise :is(.e-graph-scene, [data-controls-theme="dark"]),
+.xc-select-popover[data-theme="dark"] {
+  --xc-surface: #10283b; --xc-surface-soft: #0b2031; --xc-ink: #dcecf8;
+  --xc-muted: #9cb8cc; --xc-placeholder: #8faabd; --xc-line: #3c6079;
+  --xc-line-hover: #628fa8; --xc-accent: #6bc5e0; --xc-accent-ink: #b3effc;
+  --xc-focus: #62c8e527; --xc-selected: #173e56; --xc-hover: #15354c;
+  --xc-shadow: 0 1px 3px #020b1733, inset 0 1px 0 #ffffff06;
+  color-scheme: dark;
+}
+.enterprise :is(.e-graph-scene, [data-controls-theme="dark"]) :is(input, textarea, select) { color-scheme: dark; }
+.enterprise :is(.e-graph-scene, [data-controls-theme="dark"]) .xc-select-trigger:hover:not(:disabled) { background: var(--xc-hover); }
+.xc-select-popover[data-theme="dark"] { border-color: #456d89; box-shadow: 0 16px 38px #01091490, 0 3px 9px #0003; }
+.xc-select-popover[data-theme="dark"] .xc-select-search-wrap { border-color: #35556e; }
+.xc-select-popover[data-theme="dark"] .xc-select-footer { border-color: #2f4d64; color: #8eabbf; }
+.xc-select-popover[data-theme="dark"] .xc-select-option[data-active="true"][data-selected="true"] { background: #21516d; }
+
+@keyframes xc-list-in { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 760px) {
+  .enterprise, .xc-select-popover { --xc-height: 44px; }
+  /* 16px prevents iOS focus zoom; touch targets stay at least 44px high. */
+  .enterprise :is(input:not([type]), input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input[type="week"], textarea, select:not(.xc-select-native)) { font-size: 16px !important; }
+  .enterprise .xc-select-trigger { min-height: 44px; font-size: 14px; }
+  .xc-select-popover .xc-select-search { font-size: 16px; min-height: 40px; height: 40px; }
+  .xc-select-search-wrap { min-height: 44px; }
+  .xc-select-popover .xc-select-option { min-height: 44px; }
+  .xc-select-footer-hint { display: none; }
+  .enterprise .e-toolbar > .xc-select { flex: 1 1 150px; max-width: 100%; }
+  .enterprise .e-search-options { flex-wrap: wrap; gap: 12px; }
+  .enterprise .e-search-options > label { min-width: 0; width: 100%; }
+  .enterprise .e-search-options .xc-select { flex: 1; width: auto; }
+  .enterprise .e-chat-scope { gap: 10px; flex-wrap: wrap; }
+  .enterprise .e-chat-scope .xc-select { flex: 1 1 180px; max-width: 100%; }
+  .enterprise .e-chat-scenario .xc-select { max-width: 100%; }
+  .enterprise .ws-scope-toolbar .xc-select { max-width: 100%; }
+  .enterprise .xg-query-options > label, .enterprise .xg-query-options > label:first-child { flex: 1 1 100%; }
+  .enterprise .xg-query-options label > span:not(.xc-select) { flex: 0 0 58px; font-size: 12px; }
+  .enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search) { min-height: 48px; }
+  .enterprise :is(.e-inline-search, .e-hero-search, .e-search-input, .ws-inline-search, .xg-query-line) input,
+  .enterprise .ws-command form input { min-height: 40px; height: 40px; }
+  .enterprise .ws-command form { gap: 7px; padding-left: 10px; }
+  .enterprise .ws-command form > button { min-height: 40px; padding: 9px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .xc-select-popover, .xc-select-popover *, .enterprise .xc-select * { animation: none; transition: none; }
+}
+@media (forced-colors: active) {
+  .enterprise .xc-select-trigger, .xc-select-popover { border: 1px solid ButtonText; }
+  .xc-select-popover .xc-select-option[data-selected="true"] { border-color: Highlight; }
+  .enterprise .xc-select-trigger:focus-visible, .xc-select-popover .xc-select-option:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+}

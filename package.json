@@ -1,0 +1,64 @@
+{
+  "name": "x-rag-knowledge-platform",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "check": "npm run build && npm test && npm run model:verify && node scripts/verify-package.mjs",
+    "preview": "node --env-file-if-exists=.env.local server/api.mjs",
+    "restore": "node scripts/restore.mjs",
+    "start": "node --env-file-if-exists=.env.local server/api.mjs",
+    "dev": "node --env-file-if-exists=.env.local scripts/dev.mjs",
+    "typecheck": "tsc --noEmit --project tsconfig.json",
+    "test": "node scripts/test.mjs",
+    "build": "npm run typecheck && vite build --config vite.config.ts",
+    "backup": "node --env-file-if-exists=.env.local scripts/backup.mjs",
+    "model:prepare": "node scripts/prepare-model.mjs",
+    "model:verify": "node scripts/prepare-model.mjs --verify"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "4.2.0",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-progress": "^1.1.7",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-switch": "^1.2.6",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@tesseract.js-data/chi_sim": "1.0.0",
+    "@tesseract.js-data/eng": "1.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "jose": "6.2.12",
+    "lucide-react": "^0.468.0",
+    "pdfjs-dist": "6.3.289",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "7.18.3",
+    "reactflow": "^11.11.4",
+    "recharts": "^2.15.4",
+    "saxes": "6.0.0",
+    "tailwind-merge": "^2.6.0",
+    "tesseract.js": "7.0.0",
+    "zustand": "^4.5.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.5",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "6.1.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2",
+    "vite": "8.2.2"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "overrides": {
+    "sharp": "0.35.4",
+    "adm-zip": "0.6.0"
+  }
+}
